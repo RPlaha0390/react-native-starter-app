@@ -19,22 +19,70 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+
+
 interface Props {}
-export default class App extends Component<Props, { text: string }> {
-  
+
+interface State {
+  possibleFriends: string[],
+  currentFriends: string[]
+}
+
+export interface ScreenProps {
+  possibleFriends: string[],
+  currentFriends: string[]
+  addFriend: () => void
+}
+
+export default class App extends Component<Props, State, ScreenProps> {
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      possibleFriends: [
+        'Shivani',
+        'Karan',
+        'Raman',
+      ],
+      currentFriends: [],
+    }
+  }
+
+  addFriend = (index: number) => {
+    const {
+      currentFriends,
+      possibleFriends,
+    } = this.state
+
+    // Pull friend out of possibleFriends
+    const addedFriend = possibleFriends.splice(index, 1)
+
+    // And put friend in currentFriends
+    currentFriends.push(addedFriend[0])
+
+    // Finally, update our app state
+    this.setState({
+      currentFriends,
+      possibleFriends,
+    })
+  }
 
   render() {
     return (
-      <AppNavigator/>
+      <View style={styles.container}>
+        <AppNavigator
+          screenProps={ {
+            currentFriends: this.state.currentFriends,
+            possibleFriends: this.state.possibleFriends,
+            addFriend: this.addFriend,
+          } }
+        />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1
   },
 });

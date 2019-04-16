@@ -11,6 +11,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation'
+import { ScreenProps } from './App';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -19,7 +20,10 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-interface Props extends NavigationInjectedProps { 
+
+
+interface Props extends NavigationInjectedProps {
+  screenProps: ScreenProps 
 }
 export default class Home extends Component<Props> {
   
@@ -27,7 +31,7 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text>We have no friends!</Text>
+        <Text>We have { this.props.screenProps.currentFriends.length } friends!</Text>
         <Button
           title="Add some friends"
           onPress={() =>
@@ -42,7 +46,6 @@ export default class Home extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
